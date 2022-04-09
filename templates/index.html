@@ -1,7 +1,19 @@
+<div>
+    Time: {{time}}
+</div>
+
 Set the calendar URL:
 
 <form action="update-cal">
     <label for="url">ICS file URL:</label>
     <input type="text" name="url" placeholder="example.ics" value="{{cal_url}}"/>
+    <input type="submit"/>
+</form>
+
+Set current time:
+
+<form action="update-time">
+    <label for="url">time:</label>
+    <input type="datetime-local" name="time"/>
     <input type="submit"/>
 </form>

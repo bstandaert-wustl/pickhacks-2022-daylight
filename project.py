@@ -7,6 +7,15 @@ from apscheduler.schedulers.background import BackgroundScheduler
 cal = None
 calUrl = "https://calendar.google.com/calendar/ical/f7ejnn7bs80n91vr0nm8v5jbg4%40group.calendar.google.com/private-ad9b307842f33f3d7c36b3c9e522e922/basic.ics"
 
+timeShift = None
+
+def getCurrentTime():
+    print(timeShift)
+    if timeShift:
+      return arrow.now() - timeShift
+    else:
+        return arrow.now()
+
 def loadCalendar(url):
     calUrl = url
     cal = Calendar(requests.get(url).text)
@@ -35,11 +44,18 @@ app = Flask("smartLamp")
 
 @app.route("/")
 def show_index():
-    return render_template("index.html", cal_url=calUrl)
+    return render_template("index.html", cal_url=calUrl, time=getCurrentTime().format("YYYY-MM-DD HH:mm:ss ZZ"))
 
 @app.route("/update-cal")
 def update_calendar_request():
     loadCalendar(request.args.get("url", ""))
+    return redirect("/")
+
+@app.route("/update-time")
+def update_time():
+    global timeShift
+    timeShift = arrow.now() - arrow.get(request.args.get("time", ""))
+    print(timeShift)
     return redirect("/")
 
 
