@@ -1,13 +1,14 @@
 '''
 Author: Yifei Li
 Date: 2022-04-09 10:17:01
-LastEditTime: 2022-04-09 11:22:06
+LastEditTime: 2022-04-09 11:29:15
 FilePath: /pickhacks-22/testled.py
 '''
 import RPi.GPIO as GPIO
 from led import RGB_LED as RGB
 
 GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
 
 led1 = RGB(11, 13, 15)
 
