@@ -1,7 +1,7 @@
 '''
 Author: Yifei Li
 Date: 2022-04-09 09:13:00
-LastEditTime: 2022-04-09 11:39:09
+LastEditTime: 2022-04-09 11:41:55
 FilePath: /pickhacks-22/led.py
 '''
 import RPi.GPIO as GPIO
@@ -39,15 +39,6 @@ class RGB_LED:
         self.b = B
         self.brightness = bright
 
-        self.pwm_r.ChangeDutyCycle(self.r / 255 * self.brightness)
-        self.pwm_g.ChangeDutyCycle(self.g / 255 * self.brightness)
-        self.pwm_b.ChangeDutyCycle(self.g / 255 * self.brightness)
-
-    def set_RGB(self, R, G, B, bright):
-        self.r = R
-        self.g = G
-        self.b = B
-        
         self.pwm_r.ChangeDutyCycle(self.r / 255 * self.brightness)
         self.pwm_g.ChangeDutyCycle(self.g / 255 * self.brightness)
         self.pwm_b.ChangeDutyCycle(self.g / 255 * self.brightness)
