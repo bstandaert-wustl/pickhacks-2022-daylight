@@ -1,7 +1,7 @@
 '''
 Author: Yifei Li
 Date: 2022-04-09 10:17:01
-LastEditTime: 2022-04-09 11:41:51
+LastEditTime: 2022-04-09 11:42:54
 FilePath: /pickhacks-22/testled.py
 '''
 import RPi.GPIO as GPIO
@@ -18,8 +18,8 @@ led1.set_brightness(100)
 led1.set_brightness(50)
 led1.set_color('green')
 
-led1.set_RGB(100, 200, 300, 100)
+led1.set_RGB(100, 200, 255, 100)
 
-led1.set_RGB(300, 200, 100, 100)
+led1.set_RGB(255, 200, 100, 100)
 
 GPIO.cleanup()
