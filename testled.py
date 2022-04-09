@@ -12,6 +12,8 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
 led1 = RGB(11, 13, 15)
+
+led1.debug(True)
 time.sleep(0.5)
 led1.set_color('red')
 time.sleep(0.5)
