@@ -1,7 +1,7 @@
 '''
 Author: Yifei Li
 Date: 2022-04-09 10:17:01
-LastEditTime: 2022-04-09 11:29:15
+LastEditTime: 2022-04-09 11:39:28
 FilePath: /pickhacks-22/testled.py
 '''
 import RPi.GPIO as GPIO
