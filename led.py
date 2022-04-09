@@ -1,7 +1,7 @@
 '''
 Author: Yifei Li
 Date: 2022-04-09 09:13:00
-LastEditTime: 2022-04-09 11:07:59
+LastEditTime: 2022-04-09 11:24:06
 FilePath: /pickhacks-22/led.py
 '''
 import RPi.GPIO as GPIO
@@ -12,7 +12,12 @@ class RGB_LED:
         self.G_PIN = G_PIN
         self.B_PIN = B_PIN
 
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(R_PIN, GPIO.OUT)
+        GPIO.output(R_PIN, GPIO.LOW)
+        GPIO.setup(G_PIN, GPIO.OUT)
+        GPIO.output(G_PIN, GPIO.LOW)
+        GPIO.setup(B_PIN, GPIO.OUT)
+        GPIO.output(B_PIN, GPIO.LOW)
 
         brightness = 100
         
@@ -94,3 +99,13 @@ class RGB_LED:
 
         else:
             self.set_RGB(self.r, self.g, self.b, self.brightness)
+
+    def __del__(self):
+        self.pwm_r.stop()
+        GPIO.output(self.R_PIN, GPIO.LOW)
+        self.pwm_g.stop()
+        GPIO.output(self.G_PIN, GPIO.LOW)
+        self.pwm_b.stop()
+        GPIO.output(self.B_PIN, GPIO.LOW)
+        
+
