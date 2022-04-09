@@ -103,10 +103,7 @@ class RGB_LED:
 
     def __del__(self):
         self.pwm_r.stop()
-        GPIO.output(self.R_PIN, GPIO.LOW)
         self.pwm_g.stop()
-        GPIO.output(self.G_PIN, GPIO.LOW)
         self.pwm_b.stop()
-        GPIO.output(self.B_PIN, GPIO.LOW)
         
 
