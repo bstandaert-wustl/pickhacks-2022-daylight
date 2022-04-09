@@ -39,9 +39,9 @@ class RGB_LED:
         self.b = B
         self.brightness = bright
 
-        self.pwm_r.ChangeDutyCycle(self.r / 255 * 100 * self.brightness)
-        self.pwm_g.ChangeDutyCycle(self.g / 255 * 100 * self.brightness)
-        self.pwm_b.ChangeDutyCycle(self.g / 255 * 100 * self.brightness)
+        self.pwm_r.ChangeDutyCycle(self.r / 255 * self.brightness)
+        self.pwm_g.ChangeDutyCycle(self.g / 255 * self.brightness)
+        self.pwm_b.ChangeDutyCycle(self.g / 255 * self.brightness)
 
     def set_brightness(self, bright):
         self.brightness = bright
