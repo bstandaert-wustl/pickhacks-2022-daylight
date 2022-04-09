@@ -20,7 +20,7 @@ class RGB_LED:
         GPIO.setup(B_PIN, GPIO.OUT)
         GPIO.output(B_PIN, GPIO.LOW)
 
-        self.brightness = 100
+        self.brightness = 0
         
         self.r = 255
         self.g = 255
@@ -45,15 +45,14 @@ class RGB_LED:
         self.b = B
         self.brightness = bright
 
-        self.pwm_r.ChangeDutyCycle(self.r / 255 * self.brightness)
-        self.pwm_g.ChangeDutyCycle(self.g / 255 * self.brightness)
-        self.pwm_b.ChangeDutyCycle(self.g / 255 * self.brightness)
+        self.pwm_r.ChangeDutyCycle(self.r / 255 * (100 - self.brightness))
+        self.pwm_g.ChangeDutyCycle(self.g / 255 * (100 - self.brightness))
+        self.pwm_b.ChangeDutyCycle(self.g / 255 * (100 - self.brightness))
 
         if self.debug:
             print('R:', self.r, 'G:', self.g, 'B:', self.b, 'Brightness:', self.brightness)
 
     def set_brightness(self, bright):
-        self.brightness = bright
         self.set_RGB(self.r, self.g, self.b, self.brightness)
 
     # color literal to rgb value
