@@ -1,7 +1,7 @@
 '''
 Author: Yifei Li
 Date: 2022-04-09 09:13:00
-LastEditTime: 2022-04-09 11:24:06
+LastEditTime: 2022-04-09 11:25:24
 FilePath: /pickhacks-22/led.py
 '''
 import RPi.GPIO as GPIO
@@ -19,7 +19,7 @@ class RGB_LED:
         GPIO.setup(B_PIN, GPIO.OUT)
         GPIO.output(B_PIN, GPIO.LOW)
 
-        brightness = 100
+        self.brightness = 100
         
         self.r = 255
         self.g = 255
