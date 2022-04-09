@@ -1,12 +1,12 @@
 '''
 Author: Yifei Li
 Date: 2022-04-09 09:13:00
-LastEditTime: 2022-04-09 11:06:50
+LastEditTime: 2022-04-09 11:07:59
 FilePath: /pickhacks-22/led.py
 '''
 import RPi.GPIO as GPIO
 
-class RGB_LED(object):
+class RGB_LED:
     def __init__(self, R_PIN, G_PIN, B_PIN):
         self.R_PIN = R_PIN
         self.G_PIN = G_PIN
