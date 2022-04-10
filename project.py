@@ -8,11 +8,20 @@ import datetime
 from cal import *
 import time
 
-led1 = RGB(11, 13, 15)
+led1 = RGB(3, 5, 7)
+led2 = RGB(11, 13, 15)
+led3 = RGB(19, 21, 23)
+led4 = RGB(29, 31, 33)
 led1.set_debug(True)
+led2.set_debug(True)
+led3.set_debug(True)
+led4.set_debug(True)
 
 def setAllLED(rgb):
     led1.set_RGB(rgb[0], rgb[1], rgb[2], rgb[3])
+    led2.set_RGB(rgb[0], rgb[1], rgb[2], rgb[3])
+    led3.set_RGB(rgb[0], rgb[1], rgb[2], rgb[3])
+    led4.set_RGB(rgb[0], rgb[1], rgb[2], rgb[3])
 
 
 def updateLEDs():
