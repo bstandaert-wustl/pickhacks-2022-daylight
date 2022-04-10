@@ -22,7 +22,7 @@ rgb_target = [0, 0, 0, 0]
 
 def refreshLED():
     for i in range(4):
-        rgb_actual[i] = rgb_actual[i] + (rgb_target[i] - rgb_actual[i]) / 5
+        rgb_actual[i] = rgb_actual[i] + (rgb_target[i] - rgb_actual[i]) / 4
     led1.set_RGB(rgb_actual[0], rgb_actual[1], rgb_actual[2], rgb_actual[3])
     led2.set_RGB(rgb_actual[0], rgb_actual[1], rgb_actual[2], rgb_actual[3])
     led3.set_RGB(rgb_actual[0], rgb_actual[1], rgb_actual[2], rgb_actual[3])
@@ -37,6 +37,8 @@ ledRefresh.add_job(refreshLED, 'interval', seconds=1)
 ledRefresh.start()
 
 def updateLEDs():
+    global rgb_actual
+    global rgb_target
     print(getCurrentEvent(), getPrevEventInDay(), getNextEventInDay())
     rgb = (255, 255, 200, 100)
 
@@ -46,16 +48,20 @@ def updateLEDs():
 
     elif getNextEventInDay() and getNextEventInDay().begin - getCurrentTime() < datetime.timedelta(minutes=5)  and getNextEventInDay().begin - getCurrentTime() > datetime.timedelta(minutes=2):
         #event is starting now
-        for i in range(3):
+        rgb_actual = [0, 0, 0, 0]
+        rgb_target = [0, 0, 0, 0]
+        refreshLED()
+        time.sleep(1)
+        for i in range(1):
             rgb = (255, 0, 0, 100)
             setAllLED(rgb)
-            time.sleep(4)
+            time.sleep(2.5)
             rgb = (0, 255, 0, 100)
             setAllLED(rgb)
-            time.sleep(4)
+            time.sleep(2.5)
             rgb = (0, 0, 255, 100)
             setAllLED(rgb)
-            time.sleep(4)
+            time.sleep(2.5)
 
     elif getCurrentEvent() is not None:
         rgb = (0, 255, 0, 100)
