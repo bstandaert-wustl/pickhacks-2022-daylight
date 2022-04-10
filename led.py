@@ -47,7 +47,7 @@ class RGB_LED:
 
         self.pwm_r.ChangeDutyCycle(self.r / 255 * (100 - self.brightness))
         self.pwm_g.ChangeDutyCycle(self.g / 255 * (100 - self.brightness))
-        self.pwm_b.ChangeDutyCycle(self.g / 255 * (100 - self.brightness))
+        self.pwm_b.ChangeDutyCycle(self.b / 255 * (100 - self.brightness))
 
         if self.debug:
             print('R:', self.r, 'G:', self.g, 'B:', self.b, 'Brightness:', self.brightness)

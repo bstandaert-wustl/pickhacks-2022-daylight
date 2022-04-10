@@ -11,7 +11,7 @@ from led import RGB_LED as RGB
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
-led1 = RGB(11, 13, 15)
+led1 = RGB(5, 3, 7)
 
 led1.set_debug(True)
 time.sleep(0.5)
