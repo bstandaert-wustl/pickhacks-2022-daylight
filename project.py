@@ -17,12 +17,24 @@ led2.set_debug(True)
 led3.set_debug(True)
 led4.set_debug(True)
 
-def setAllLED(rgb):
-    led1.set_RGB(rgb[0], rgb[1], rgb[2], rgb[3])
-    led2.set_RGB(rgb[0], rgb[1], rgb[2], rgb[3])
-    led3.set_RGB(rgb[0], rgb[1], rgb[2], rgb[3])
-    led4.set_RGB(rgb[0], rgb[1], rgb[2], rgb[3])
+rgb_actual = [0, 0, 0, 0]
+rgb_target = [0, 0, 0, 0]
 
+def refreshLED():
+    for i in range(4):
+        rgb_actual[i] = rgb_actual[i] + (rgb_target[i] - rgb_actual[i]) / 5
+    led1.set_RGB(rgb_actual[0], rgb_actual[1], rgb_actual[2], rgb_actual[3])
+    led2.set_RGB(rgb_actual[0], rgb_actual[1], rgb_actual[2], rgb_actual[3])
+    led3.set_RGB(rgb_actual[0], rgb_actual[1], rgb_actual[2], rgb_actual[3])
+    led4.set_RGB(rgb_actual[0], rgb_actual[1], rgb_actual[2], rgb_actual[3])
+
+def setAllLED(rgb):
+    global rgb_target
+    rgb_target = rgb
+
+ledRefresh = BackgroundScheduler(daemon=True)
+ledRefresh.add_job(refreshLED, 'interval', seconds=1)
+ledRefresh.start()
 
 def updateLEDs():
     print(getCurrentEvent(), getPrevEventInDay(), getNextEventInDay())
@@ -32,25 +44,28 @@ def updateLEDs():
         #1st event is starting
         rgb = (200, 200, 255, 100)
 
-    elif getNextEventInDay() and getNextEventInDay().begin - getCurrentTime() < datetime.timedelta(minutes=4):
+    elif getNextEventInDay() and getNextEventInDay().begin - getCurrentTime() < datetime.timedelta(minutes=5)  and getNextEventInDay().begin - getCurrentTime() > datetime.timedelta(minutes=2):
         #event is starting now
-        for i in range(4):
+        for i in range(3):
             rgb = (255, 0, 0, 100)
             setAllLED(rgb)
-            time.sleep(0.5)
+            time.sleep(4)
             rgb = (0, 255, 0, 100)
             setAllLED(rgb)
-            time.sleep(0.5)
+            time.sleep(4)
             rgb = (0, 0, 255, 100)
             setAllLED(rgb)
-            time.sleep(0.5)
+            time.sleep(4)
 
     elif getCurrentEvent() is not None:
         rgb = (0, 255, 0, 100)
 
-    elif getCurrentEvent() is None and (getPrevEventInDay() is None or getNextEventInDay() is None):
-        #events for today are not started or done
-        rgb = (255, 0, 0, 100)
+    elif getCurrentEvent() is None and getPrevEventInDay() is None:
+        #events for today are not started
+        rgb = (255, 50, 10, 100)
+    elif getCurrentEvent() is None and getNextEventInDay() is None:
+        #events for today are done
+        rgb = (255, 50, 10, 100)
 
     print(rgb)
     setAllLED(rgb)
