@@ -43,14 +43,14 @@ class RGB_LED:
         self.r = R
         self.g = G
         self.b = B
-        self.brightness = bright
+        self.brightness = 100 - bright
 
-        self.pwm_r.ChangeDutyCycle(self.r / 255 * (100 - self.brightness))
-        self.pwm_g.ChangeDutyCycle(self.g / 255 * (100 - self.brightness))
-        self.pwm_b.ChangeDutyCycle(self.b / 255 * (100 - self.brightness))
+        self.pwm_r.ChangeDutyCycle(100-(self.r / 255 * (100 - self.brightness)))
+        self.pwm_g.ChangeDutyCycle(100-(self.g / 255 * (100 - self.brightness)))
+        self.pwm_b.ChangeDutyCycle(100-(self.b / 255 * (100 - self.brightness)))
 
         if self.debug:
-            print('R:', self.r, 'G:', self.g, 'B:', self.b, 'Brightness:', self.brightness)
+            print('R:', self.r, 'G:', self.g, 'B:', self.b, 'Brightness:', 100- self.brightness)
 
     def set_brightness(self, bright):
         self.set_RGB(self.r, self.g, self.b, self.brightness)
