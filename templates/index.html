@@ -1,22 +1,40 @@
-<link rel="stylesheet" href="index.css"/>
+<style>
+    body, html {
+    padding: 0;
+    margin: 0;
+    background: #eee;
+    font-family: system-ui, sans-serif;
+}
+
+#main {
+    width: 100%;
+    max-width: 800px;
+    margin: 1em auto;
+    padding: 1em;
+    background: #fff;
+}
+</style>
+
 <div id="main">
+    <h2> Daylight settings </h2>
+
+    <form action="update-cal">
+        <h3>Set the calendar URL:</h3>
+        <label for="url">ICS file URL:</label>
+        <input type="text" name="url" placeholder="example.ics" value="{{cal_url}}" style="width: 400px; max-width: 70vw"/>
+        <input type="submit" value="Change"/>
+    </form>
+
+    <h3>Debug options</h3>
+
     <div>
         Time: {{time}}, timeShift: {{timeShift}}
     </div>
-
-    Set the calendar URL:
-
-    <form action="update-cal">
-        <label for="url">ICS file URL:</label>
-        <input type="text" name="url" placeholder="example.ics" value="{{cal_url}}"/>
-        <input type="submit"/>
-    </form>
-
-    Set current time:
+    <br>
 
     <form action="update-time">
-        <label for="url">time (UTC):</label>
+        <label for="url">Set current time (UTC):</label>
         <input type="datetime-local" name="time"/>
-        <input type="submit"/>
+        <input type="submit" value="Update"/>
     </form>
 </div>
