@@ -46,7 +46,7 @@ def updateLEDs():
         #1st event is starting
         rgb = (200, 200, 255, 100)
 
-    elif getNextEventInDay() and getNextEventInDay().begin - getCurrentTime() < datetime.timedelta(minutes=5)  and getNextEventInDay().begin - getCurrentTime() > datetime.timedelta(minutes=2):
+    elif getNextEventInDay() and getNextEventInDay().begin - getCurrentTime() < datetime.timedelta(minutes=3):
         #event is starting now
         rgb_actual = [0, 0, 0, 0]
         rgb_target = [0, 0, 0, 0]
@@ -68,10 +68,10 @@ def updateLEDs():
 
     elif getCurrentEvent() is None and getPrevEventInDay() is None:
         #events for today are not started
-        rgb = (255, 50, 10, 100)
+        rgb = (255, 60, 20, 100)
     elif getCurrentEvent() is None and getNextEventInDay() is None:
         #events for today are done
-        rgb = (255, 50, 10, 100)
+        rgb = (255, 60, 20, 100)
 
     print(rgb)
     setAllLED(rgb)
