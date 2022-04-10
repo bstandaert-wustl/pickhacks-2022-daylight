@@ -6,21 +6,48 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from led import RGB_LED as RGB
 import datetime
 from cal import *
+import time
 
 led1 = RGB(11, 13, 15)
-
 led1.set_debug(True)
 
-def updateLEDs():
-    rgb = (50, 0, 0, 100)
-    print(getCurrentEvent())
-    if getCurrentEvent() is not None:
-        rgb = (255, 0, 0, 100)
-    print(rgb)
+def setAllLED(rgb):
     led1.set_RGB(rgb[0], rgb[1], rgb[2], rgb[3])
 
+
+def updateLEDs():
+    print(getCurrentEvent(), getPrevEventInDay(), getNextEventInDay())
+    rgb = (255, 255, 200, 100)
+
+    if getPrevEventInDay() is None and getNextEventInDay() and getNextEventInDay().begin - getCurrentTime() < datetime.timedelta(hours=0.5):
+        #1st event is starting
+        rgb = (200, 200, 255, 100)
+
+    elif getNextEventInDay() and getNextEventInDay().begin - getCurrentTime() < datetime.timedelta(minutes=4):
+        #event is starting now
+        for i in range(4):
+            rgb = (255, 0, 0, 100)
+            setAllLED(rgb)
+            time.sleep(0.5)
+            rgb = (0, 255, 0, 100)
+            setAllLED(rgb)
+            time.sleep(0.5)
+            rgb = (0, 0, 255, 100)
+            setAllLED(rgb)
+            time.sleep(0.5)
+
+    elif getCurrentEvent() is not None:
+        rgb = (0, 255, 0, 100)
+
+    elif getCurrentEvent() is None and (getPrevEventInDay() is None or getNextEventInDay() is None):
+        #events for today are not started or done
+        rgb = (255, 0, 0, 100)
+
+    print(rgb)
+    setAllLED(rgb)
+
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(updateLEDs, 'interval', seconds=5)
+sched.add_job(updateLEDs, 'interval', seconds=1)
 sched.start()
 # server
 
@@ -28,7 +55,7 @@ app = Flask("smartLamp")
 
 @app.route("/")
 def show_index():
-    return render_template("index.html", cal_url=calUrl, time=getCurrentTime().format("YYYY-MM-DD HH:mm:ss ZZ"))
+    return render_template("index.html", cal_url=calUrl, time=getCurrentTime().to("US/Central").format("YYYY-MM-DD HH:mm:ss ZZ"), timeShift=getTimeShift())
 
 @app.route("/update-cal")
 def update_calendar_request():
@@ -37,17 +64,14 @@ def update_calendar_request():
 
 @app.route("/update-time")
 def update_time():
-    global timeShift
-    timeShift = arrow.utcnow() - arrow.get(request.args.get("time", ""))
-    print(timeShift)
+    setTimeShift(arrow.utcnow() - arrow.get(request.args.get("time", "")))
     return redirect("/")
 
 def incrementTimeOffset():
-    global timeShift
-    if timeShift is None:
-        timeShift = datetime.timedelta(seconds=100)
+    if getTimeShift() is None:
+        setTimeShift(datetime.timedelta(seconds=100))
     else:
-        timeShift -= datetime.timedelta(seconds=100)
+        setTimeShift(getTimeShift() - datetime.timedelta(seconds=100))
 
 @app.route("/enable-fast-time")
 def enableFastTime():

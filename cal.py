@@ -10,8 +10,15 @@ calUrl = "https://calendar.google.com/calendar/ical/f7ejnn7bs80n91vr0nm8v5jbg4%4
 
 timeShift = None
 
+def setTimeShift(ts):
+    global timeShift
+    timeShift = ts
+
+def getTimeShift():
+    return timeShift
+
 def getCurrentTime():
-    print(timeShift)
+    print("ts", timeShift)
     if timeShift:
       return arrow.utcnow() - timeShift
     else:
@@ -39,9 +46,19 @@ sched.start()
 def getCurrentEvent():
     now = getCurrentTime()
     for e in cal.timeline:
-        print(e.name, e.begin, e.end, now)
         if now > e.begin and now < e.end:
             return e
+
+def getPrevEventInDay():
+    now = getCurrentTime().to("US/Central")
+    prev = None
+    for e in cal.timeline:
+        #print(e.name, e.begin, e.end, now)
+        if (e.begin < now and (prev is None or e.begin > prev.begin)):
+            prev = e
+    if prev is None or now.floor("day") != prev.begin.to("US/Central").floor("day"):
+        return None
+    return prev
 
 def getNextEventInDay():
     now = getCurrentTime().to("US/Central")
@@ -50,6 +67,6 @@ def getNextEventInDay():
         #print(e.name, e.begin, e.end, now)
         if (e.begin > now and (next is None or e.begin < next.begin)):
             next = e
-    if now.floor("day") != next.begin.to("US/Central").floor("day"):
+    if next is None or now.floor("day") != next.begin.to("US/Central").floor("day"):
         return None
     return next
